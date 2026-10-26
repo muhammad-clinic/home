@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Muhammad Clinic | Services & Fees</title>
+    <link rel="shortcut icon" type="image/png" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
-        header { background: #004d40; color: #fff; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 1.5rem; font-weight: 700; color: #fff; text-decoration: none; }
-        nav a { color: #fff; text-decoration: none; margin-left: 20px; font-weight: 500; }
-        nav a:hover, nav a.active { color: #80cbc4; }
+        header { background: #fff; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #004d40; }
+        .brand { display: flex; align-items: center; text-decoration: none; gap: 12px; }
+        .brand img { height: 75px; width: auto; display: block; }
+        .brand-text { font-size: 1.4rem; font-weight: 700; color: #004d40; letter-spacing: 0.5px; }
+        .nav-links { display: flex; align-items: center; }
+        nav a { color: #004d40; text-decoration: none; margin-left: 20px; font-weight: 600; transition: color 0.3s; font-size: 0.95rem; }
+        nav a:hover, nav a.active { color: #ff6f61; }
         .container { max-width: 1000px; margin: 50px auto; padding: 0 20px; }
         h1 { color: #004d40; margin-bottom: 20px; }
         .service-box { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
@@ -22,13 +27,20 @@
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background: #004d40; color: white; }
         tr:nth-child(even) { background: #f9f9f9; }
-        footer { background: #111; color: #aaa; text-align: center; padding: 30px 20px; margin-top: 60px; font-size: 0.9rem; }
+        footer { background: #004d40; color: #fff; padding: 40px 5%; text-align: center; margin-top: 60px; }
+        .footer-logo { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
+        .footer-logo img { height: 75px; }
+        .footer-logo span { font-size: 1.5rem; font-weight: 700; color: #fff; }
+        footer p.ft-text { font-size: 0.9rem; color: #e0f2f1; max-width: 600px; margin: 5px auto; }
     </style>
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">Muhammad Clinic</a>
-        <nav>
+        <a href="index.html" class="brand">
+            <img src="logo.png" alt="Muhammad Clinic Logo">
+            <span class="brand-text">Muhammad Clinic</span>
+        </a>
+        <nav class="nav-links">
             <a href="index.html">Home</a>
             <a href="about.html">About & Contact</a>
             <a href="services.html" class="active">Services & Fees</a>
@@ -105,7 +117,12 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Muhammad Clinic. All rights reserved.</p>
+        <div class="footer-logo">
+            <img src="logo.png" alt="Muhammad Clinic Logo">
+            <span>Muhammad Clinic</span>
+        </div>
+        <p class="ft-text">House # 461-3-C1, near Umar Chowk, Township, Lahore, Pakistan</p>
+        <p class="ft-text">&copy; 2026 Muhammad Clinic. All rights reserved.</p>
     </footer>
 </body>
 </html>
