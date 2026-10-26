@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Muhammad Clinic | Home - Township, Lahore</title>
+    <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
-        header { background: #004d40; color: #fff; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; color: #fff; text-decoration: none; }
-        nav a { color: #fff; text-decoration: none; margin-left: 20px; font-weight: 500; transition: color 0.3s; }
-        nav a:hover, nav a.active { color: #80cbc4; }
+        header { background: #fff; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #004d40; }
+        .header-logo img { height: 60px; width: auto; display: block; }
+        .nav-links { display: flex; align-items: center; }
+        nav a { color: #004d40; text-decoration: none; margin-left: 20px; font-weight: 600; transition: color 0.3s; font-size: 0.95rem; }
+        nav a:hover, nav a.active { color: #ff6f61; }
         .hero { background: linear-gradient(rgba(0,77,64,0.85), rgba(0,77,64,0.85)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1350&q=80') center/cover; color: white; padding: 100px 5%; text-align: center; }
         .hero h1 { font-size: 2.8rem; margin-bottom: 20px; }
         .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 30px; font-weight: 300; }
@@ -23,13 +25,15 @@
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
         .feature-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-top: 4px solid #004d40; }
         .feature-card h3 { margin-bottom: 15px; color: #004d40; }
-        footer { background: #111; color: #aaa; text-align: center; padding: 30px 20px; margin-top: 60px; font-size: 0.9rem; }
+        footer { background: #004d40; color: #fff; padding: 40px 5%; text-align: center; margin-top: 60px; }
+        .footer-logo img { height: 70px; margin-bottom: 15px; }
+        footer p { font-size: 0.9rem; color: #e0f2f1; max-width: 600px; margin: 5px auto; }
     </style>
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">Muhammad Clinic</a>
-        <nav>
+        <a href="index.html" class="header-logo"><img src="logo.png" alt="Muhammad Clinic Logo"></a>
+        <nav class="nav-links">
             <a href="index.html" class="active">Home</a>
             <a href="about.html">About & Contact</a>
             <a href="services.html">Services & Fees</a>
@@ -66,7 +70,9 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Muhammad Clinic (House # 461-3-C1, near Umar Chowk, Township, Lahore). All rights reserved.</p>
+        <div class="footer-logo"><img src="logo.png" alt="Muhammad Clinic Logo"></div>
+        <p>House # 461-3-C1, near Umar Chowk, Township, Lahore, Pakistan</p>
+        <p>&copy; 2026 Muhammad Clinic. All rights reserved.</p>
     </footer>
 </body>
 </html>
