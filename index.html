@@ -10,7 +10,12 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
         header { background: #fff; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #004d40; }
-        .header-logo img { height: 60px; width: auto; display: block; }
+        
+        /* BRANDING AREA (Logo + Clinic Name together) */
+        .brand { display: flex; align-items: center; text-decoration: none; gap: 12px; }
+        .brand img { height: 75px; width: auto; display: block; }
+        .brand-text { font-size: 1.4rem; font-weight: 700; color: #004d40; letter-spacing: 0.5px; }
+
         .nav-links { display: flex; align-items: center; }
         nav a { color: #004d40; text-decoration: none; margin-left: 20px; font-weight: 600; transition: color 0.3s; font-size: 0.95rem; }
         nav a:hover, nav a.active { color: #ff6f61; }
@@ -26,13 +31,19 @@
         .feature-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-top: 4px solid #004d40; }
         .feature-card h3 { margin-bottom: 15px; color: #004d40; }
         footer { background: #004d40; color: #fff; padding: 40px 5%; text-align: center; margin-top: 60px; }
-        .footer-logo img { height: 70px; margin-bottom: 15px; }
-        footer p { font-size: 0.9rem; color: #e0f2f1; max-width: 600px; margin: 5px auto; }
+        .footer-logo { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
+        .footer-logo img { height: 75px; }
+        .footer-logo span { font-size: 1.5rem; font-weight: 700; color: #fff; }
+        footer p.ft-text { font-size: 0.9rem; color: #e0f2f1; max-width: 600px; margin: 5px auto; }
     </style>
 </head>
 <body>
     <header>
-        <a href="index.html" class="header-logo"><img src="logo.png" alt="Muhammad Clinic Logo"></a>
+        <!-- LOGO + CLINIC NAME TOGETHER -->
+        <a href="index.html" class="brand">
+            <img src="logo.png" alt="Muhammad Clinic Logo">
+            <span class="brand-text">Muhammad Clinic</span>
+        </a>
         <nav class="nav-links">
             <a href="index.html" class="active">Home</a>
             <a href="about.html">About & Contact</a>
@@ -70,9 +81,12 @@
     </div>
 
     <footer>
-        <div class="footer-logo"><img src="logo.png" alt="Muhammad Clinic Logo"></div>
-        <p>House # 461-3-C1, near Umar Chowk, Township, Lahore, Pakistan</p>
-        <p>&copy; 2026 Muhammad Clinic. All rights reserved.</p>
+        <div class="footer-logo">
+            <img src="logo.png" alt="Muhammad Clinic Logo">
+            <span>Muhammad Clinic</span>
+        </div>
+        <p class="ft-text">House # 461-3-C1, near Umar Chowk, Township, Lahore, Pakistan</p>
+        <p class="ft-text">&copy; 2026 Muhammad Clinic. All rights reserved.</p>
     </footer>
 </body>
 </html>
