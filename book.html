@@ -88,7 +88,7 @@
 </div>
 
 <script>
-    // Connected to your Google Apps Script Web App Backend
+    // Connected to your latest Google Apps Script Web App Backend
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfmS_w1VvCgtNFWHVAmkRV0Yo27M2qG-emrFGTu_DU4x4a3Iq1vqNs7Ak7FbriL6pp/exec";
     const MANAGER_WHATSAPP = "923351703379"; // Clinic manager contact line: 03351703379
 
@@ -153,23 +153,27 @@
             return;
         }
 
-        const takenTimes = liveBookedSlots
+        // Get 24hr times already booked for this doctor on this date
+        const takenTime24 = liveBookedSlots
             .filter(b => b.doctor === docName && b.date === appDate)
-            .map(b => b.time);
+            .map(b => b.time24);
 
-        const openSlots = docObj.slots.filter(s => !takenTimes.includes(s));
-
-        if (openSlots.length === 0) {
-            slotSelect.innerHTML = `<option value="">No open slots on this date</option>`;
-            return;
-        }
-
-        openSlots.forEach(slot => {
-            const opt = document.createElement("option");
-            opt.value = slot;
-            opt.textContent = `${slot} (Available)`;
-            slotSelect.appendChild(opt);
+        // Filter slots by comparing normalized 24hr strings
+        let availableCount = 0;
+        docObj.slots.forEach((slot, index) => {
+            const slot24 = docObj.normalizedSlots[index];
+            if (!takenTime24.includes(slot24)) {
+                const opt = document.createElement("option");
+                opt.value = slot;
+                opt.textContent = `${slot} - Available`;
+                slotSelect.appendChild(opt);
+                availableCount++;
+            }
         });
+
+        if (availableCount === 0) {
+            slotSelect.innerHTML = `<option value="">No open slots on this date</option>`;
+        }
     }
 
     async function submitAppointment(e) {
@@ -195,7 +199,15 @@
                 body: JSON.stringify(payload)
             });
 
-            liveBookedSlots.push({ doctor: payload.doctor, date: payload.date, time: payload.time });
+            // Optimistically add to local array so dropdown updates instantly without full page reload
+            let parts = payload.time.toUpperCase().replace("AM","").replace("PM","").trim().split(":");
+            let hrs = parseInt(parts[0]);
+            let mins = parts[1] ? parts[1].substring(0,2) : "00";
+            if (payload.time.toUpperCase().includes("PM") && hrs < 12) hrs += 12;
+            if (payload.time.toUpperCase().includes("AM") && hrs === 12) hrs = 0;
+            let time24 = (hrs < 10 ? "0" + hrs : hrs) + ":" + mins;
+
+            liveBookedSlots.push({ doctor: payload.doctor, date: payload.date, time24: time24 });
             updateSlots();
 
             document.getElementById("confirmationBox").style.display = "block";
