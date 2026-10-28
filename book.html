@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment | Muhammad Clinic</title>
+    <link rel="shortcut icon" type="image/png" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; padding: 40px 20px; }
+        
+        /* Top Navigation Bar */
+        .top-nav { max-width: 650px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center; }
+        .back-link { text-decoration: none; color: #004d40; font-weight: 600; font-size: 0.9rem; background: #ffffff; padding: 8px 18px; border-radius: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #cbd5e1; transition: all 0.3s; }
+        .back-link:hover { background: #004d40; color: #ffffff; }
+
+        .booking-container { max-width: 650px; margin: 0 auto; background: white; padding: 35px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-top: 5px solid #004d40; }
+        h1 { color: #004d40; margin-bottom: 8px; text-align: center; font-size: 1.8rem; }
+        p.sub { text-align: center; color: #64748b; margin-bottom: 25px; font-size: 0.9rem; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { display: flex; flex-direction: column; margin-bottom: 14px; }
+        .form-group.full { grid-column: span 2; }
+        label { font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #1e293b; }
+        input, select, textarea { padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.95rem; outline: none; }
+        input:focus, select:focus, textarea:focus { border-color: #004d40; }
+        .doc-banner { grid-column: span 2; background: #e0f2f1; border: 1px solid #80cbc4; color: #004d40; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; display: none; margin-bottom: 6px; }
+        .btn-submit { width: 100%; padding: 14px; background: #ff6f61; color: white; font-size: 1rem; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background 0.3s; margin-top: 10px; }
+        .btn-submit:hover { background: #e65b50; }
+        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+        .confirmation-box { display: none; margin-top: 20px; padding: 20px; border-radius: 8px; background: #f0fdf4; border: 1px solid #bbf7d0; text-align: center; }
+        .whatsapp-btn { display: inline-block; margin-top: 12px; padding: 10px 20px; background: #25D366; color: white; text-decoration: none; font-weight: 600; border-radius: 6px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="top-nav">
+    <a href="index.html" class="back-link">← Back to Home</a>
+</div>
+
+<div class="booking-container">
+    <h1>Book an Appointment</h1>
+    <p class="sub">Muhammad Clinic • Umar Chowk, Township, Lahore</p>
+
+    <form id="bookingForm" onsubmit="submitAppointment(event)">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Patient Full Name *</label>
+                <input type="text" id="patientName" required placeholder="e.g., Ali Raza">
+            </div>
+            <div class="form-group">
+                <label>Phone / WhatsApp Number *</label>
+                <input type="tel" id="patientPhone" required placeholder="e.g., 0300-1234567">
+            </div>
+            <div class="form-group">
+                <label>Select Specialist Doctor *</label>
+                <select id="doctorSelect" required onchange="updateSlots()">
+                    <option value="">Loading doctors...</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Appointment Date *</label>
+                <input type="date" id="appDate" required onchange="updateSlots()">
+            </div>
+            
+            <div id="docBanner" class="doc-banner"></div>
+
+            <div class="form-group full">
+                <label>Available Time Slot *</label>
+                <select id="timeSlot" required>
+                    <option value="">Select Doctor & Date first</option>
+                </select>
+            </div>
+            <div class="form-group full">
+                <label>Patient Age & Brief Symptoms / Issue *</label>
+                <textarea id="patientIssue" rows="2" required placeholder="e.g., Age 30, Routine check-up"></textarea>
+            </div>
+        </div>
+        <button type="submit" id="submitBtn" class="btn-submit">Confirm Appointment</button>
+    </form>
+
+    <div id="confirmationBox" class="confirmation-box">
+        <h3 style="color: #166534; margin-bottom: 6px;">✅ Appointment Confirmed Successfully!</h3>
+        <p id="confirmDetails" style="font-size: 0.9rem; color: #15803d;"></p>
+        <a id="whatsappLink" href="#" target="_blank" class="whatsapp-btn">📲 Send Confirmation to Clinic Manager on WhatsApp</a>
+    </div>
+</div>
+
+<script>
+    // Connected to your Google Apps Script Web App Backend
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfmS_w1VvCgtNFWHVAmkRV0Yo27M2qG-emrFGTu_DU4x4a3Iq1vqNs7Ak7FbriL6pp/exec";
+    const MANAGER_WHATSAPP = "923351703379"; // Clinic manager contact line: 03351703379
+
+    let liveDoctors = [];
+    let liveBookedSlots = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("appDate").setAttribute("min", today);
+        document.getElementById("appDate").value = today;
+        fetchSchedule();
+    });
+
+    async function fetchSchedule() {
+        try {
+            const res = await fetch(SCRIPT_URL);
+            const data = await res.json();
+            if (data.status === "success") {
+                liveDoctors = data.doctors || [];
+                liveBookedSlots = data.bookedSlots || [];
+                populateDropdown();
+            }
+        } catch (e) {
+            console.error("Error fetching schedule", e);
+            document.getElementById("doctorSelect").innerHTML = `<option value="">Error loading doctors. Please check internet.</option>`;
+        }
+    }
+
+    function populateDropdown() {
+        const select = document.getElementById("doctorSelect");
+        select.innerHTML = `<option value="">-- Choose Specialist Doctor --</option>`;
+        liveDoctors.forEach(doc => {
+            const opt = document.createElement("option");
+            opt.value = doc.name;
+            opt.textContent = `${doc.name} — ${doc.specialty}`;
+            select.appendChild(opt);
+        });
+        updateSlots();
+    }
+
+    function updateSlots() {
+        const docName = document.getElementById("doctorSelect").value;
+        const appDate = document.getElementById("appDate").value;
+        const slotSelect = document.getElementById("timeSlot");
+        const banner = document.getElementById("docBanner");
+
+        slotSelect.innerHTML = "";
+        if (!docName) {
+            banner.style.display = "none";
+            slotSelect.innerHTML = `<option value="">Select Doctor first</option>`;
+            return;
+        }
+
+        const docObj = liveDoctors.find(d => d.name === docName);
+        if (!docObj) return;
+
+        banner.style.display = "block";
+        banner.innerHTML = `<b>${docObj.name}</b> (${docObj.specialty})<br>🕒 <b>Days:</b> ${docObj.days} &nbsp;|&nbsp; 💰 <b>Fee:</b> ${docObj.fee}`;
+
+        if (!appDate) {
+            slotSelect.innerHTML = `<option value="">Select Date</option>`;
+            return;
+        }
+
+        const takenTimes = liveBookedSlots
+            .filter(b => b.doctor === docName && b.date === appDate)
+            .map(b => b.time);
+
+        const openSlots = docObj.slots.filter(s => !takenTimes.includes(s));
+
+        if (openSlots.length === 0) {
+            slotSelect.innerHTML = `<option value="">No open slots on this date</option>`;
+            return;
+        }
+
+        openSlots.forEach(slot => {
+            const opt = document.createElement("option");
+            opt.value = slot;
+            opt.textContent = `${slot} (Available)`;
+            slotSelect.appendChild(opt);
+        });
+    }
+
+    async function submitAppointment(e) {
+        e.preventDefault();
+        const btn = document.getElementById("submitBtn");
+        btn.disabled = true;
+        btn.innerText = "Booking Appointment...";
+
+        const payload = {
+            patientName: document.getElementById("patientName").value.trim(),
+            phone: document.getElementById("patientPhone").value.trim(),
+            doctor: document.getElementById("doctorSelect").value,
+            date: document.getElementById("appDate").value,
+            time: document.getElementById("timeSlot").value,
+            issue: document.getElementById("patientIssue").value.trim()
+        };
+
+        try {
+            await fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify(payload)
+            });
+
+            liveBookedSlots.push({ doctor: payload.doctor, date: payload.date, time: payload.time });
+            updateSlots();
+
+            document.getElementById("confirmationBox").style.display = "block";
+            document.getElementById("confirmDetails").innerText = 
+                `Thank you ${payload.patientName}! Your appointment with ${payload.doctor} on ${payload.date} at ${payload.time} is recorded.`;
+
+            const waMsg = encodeURIComponent(
+                `*New Appointment Booking - Muhammad Clinic*\n\n` +
+                `• Patient: ${payload.patientName}\n` +
+                `• Phone: ${payload.phone}\n` +
+                `• Doctor: ${payload.doctor}\n` +
+                `• Date: ${payload.date}\n` +
+                `• Time: ${payload.time}\n` +
+                `• Issue: ${payload.issue}`
+            );
+            document.getElementById("whatsappLink").href = `https://wa.me/${MANAGER_WHATSAPP}?text=${waMsg}`;
+            document.getElementById("bookingForm").reset();
+            document.getElementById("docBanner").style.display = "none";
+        } catch (err) {
+            alert("Booking submission failed. Please contact the clinic manager directly at 03351703379.");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Confirm Appointment";
+        }
+    }
+</script>
+
+</body>
+</html>
