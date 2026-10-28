@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask M.CLIO | Muhammad Clinic - Township, Lahore</title>
+  <link rel="shortcut icon" type="image/png" href="logo.png">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #004d40;
+      --primary-dark: #00332c;
+      --accent: #ff6f61;
+      --accent-hover: #e65b50;
+      --bg-light: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-main: #333333;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 14px;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    /* Top Navigation Bar */
+    .top-nav {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.9rem;
+      background: #ffffff;
+      padding: 8px 18px;
+      border-radius: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: 1px solid #cbd5e1;
+      transition: all 0.3s;
+    }
+
+    .back-link:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .page-badge {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: #ffebee;
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    /* Main Chat Container */
+    .clio-container {
+      width: 100%;
+      max-width: 800px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 77, 64, 0.08);
+      border: 1px solid #e0f2f1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 85vh;
+      min-height: 600px;
+    }
+
+    /* Header */
+    .clio-header {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid var(--accent);
+    }
+
+    .bot-identity {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .bot-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .bot-title h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .bot-title p {
+      font-size: 0.8rem;
+      color: #e0f2f1;
+      margin-top: 2px;
+    }
+
+    .online-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+    }
+
+    /* Chat History Area */
+    .clio-chat-box {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      background: #fdfefe;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+
+    .msg-row {
+      display: flex;
+      flex-direction: column;
+      max-width: 88%;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-row.bot {
+      align-self: flex-start;
+    }
+
+    .msg-row.user {
+      align-self: flex-end;
+    }
+
+    .sender-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-muted);
+    }
+
+    .msg-row.user .sender-label {
+      text-align: right;
+    }
+
+    .msg-bubble {
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .msg-row.bot .msg-bubble {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid #e2e8f0;
+      border-top-left-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .msg-row.user .msg-bubble {
+      background: var(--primary);
+      color: #ffffff;
+      border-top-right-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0, 77, 64, 0.2);
+    }
+
+    /* 5-Second Countdown Indicator */
+    .waiting-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--primary);
+      background: #e0f2fe;
+      padding: 10px 16px;
+      border-radius: 10px;
+      align-self: flex-start;
+      font-weight: 500;
+      border-left: 4px solid var(--primary);
+    }
+
+    .pulse-ring {
+      width: 10px;
+      height: 10px;
+      background: var(--primary);
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Guided Options Panel */
+    .clio-options-panel {
+      background: #ffffff;
+      border-top: 2px solid #e0f2f1;
+      padding: 18px 24px;
+      min-height: 180px;
+      max-height: 48%;
+      overflow-y: auto;
+    }
+
+    .options-header {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 10px;
+    }
+
+    .opt-btn {
+      background: #f8f9fa;
+      border: 1.5px solid #cbd5e1;
+      color: var(--primary);
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .opt-btn:hover {
+      background: #e0f2f1;
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .opt-btn.highlight {
+      background: #fff5f5;
+      border-color: var(--accent);
+      color: #c53030;
+      font-weight: 600;
+    }
+
+    .opt-btn.highlight:hover {
+      background: #ffebee;
+    }
+
+    .opt-btn.back-btn {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+      color: #334155;
+    }
+
+    @media (max-width: 600px) {
+      .clio-container { height: 92vh; }
+      .options-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <div class="top-nav">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    <span class="page-badge">Ask M.CLIO Assistant</span>
+  </div>
+
+  <!-- Main M.CLIO Interface -->
+  <div class="clio-container">
+    <!-- Header -->
+    <div class="clio-header">
+      <div class="bot-identity">
+        <div class="bot-avatar">MC</div>
+        <div class="bot-title">
+          <h1>Ask M.CLIO</h1>
+          <p>Muhammad Clinic • Umar Chowk, Township, Lahore</p>
+        </div>
+      </div>
+      <div class="online-pill">
+        <span class="online-dot"></span> M.CLIO Online
+      </div>
+    </div>
+
+    <!-- Chat Messages Area -->
+    <div id="clioChatBox" class="clio-chat-box">
+      <!-- Welcome message injected via script -->
+    </div>
+
+    <!-- Guided Options Area -->
+    <div class="clio-options-panel">
+      <div class="options-header">
+        <span id="optionsTitle">Please wait while M.CLIO prepares your options...</span>
+      </div>
+      <div id="clioOptionsGrid" class="options-grid"></div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // COMPREHENSIVE CLINIC & DOCTORS KNOWLEDGE BASE (FROM UPLOADED SOURCES)
+    // =========================================================================
+    const DOCTORS_DATA = {
+      ali_hamza: {
+        name: "Dr. Ali Hamza Arshad",
+        shortTitle: "Child Specialist (Paediatrician)",
+        degrees: "MBBS, MD Paediatrics | Consultant Paediatrician | Ex-Registrar, Children’s Hospital, Lahore[cite: 13]",
+        services: "• Complete medical care for children & newborn check-ups (بچوں کا مکمل طبی معائنہ اور نوزائیدہ بچوں کا معائنہ)[cite: 13]\n• Expert treatment for fever, cough, flu & respiratory infections (بخار، کھانسی، نزلہ زکام اور انفیکشن)[cite: 13]\n• Management of stomach pain, vomiting & acute diarrhoea (پیٹ درد، الٹی اور دست)[cite: 13]\n• Child growth, developmental milestones & nutritional guidance (بچوں کی نشوونما اور غذائیت سے متعلق مشورہ)[cite: 13]\n• Special emergency paediatric check-up facility available[cite: 13]",
+        timings: "• Regular OPD: Monday to Sunday | 6:00 PM to 12:00 Midnight (Weekly Off: Wednesday)[cite: 13]\n• Emergency Check-up Facility: 2:00 PM to 6:00 PM[cite: 13]",
+        fee: "• Consultation Fee: Rs. 500/- only[cite: 13]"
+      },
+      hina_khalid: {
+        name: "Dr. Hina Khalid",
+        shortTitle: "Consultant Gynaecologist",
+        degrees: "FCPS (Obstetrics & Gynaecology) | Consultant Gynaecologist & Obstetrician (کنسلٹنٹ گائناکالوجسٹ و ماہرِ زچگی)[cite: 14]",
+        services: "• Comprehensive obstetrical care & antenatal monitoring (حمل کی مکمل دیکھ بھال)[cite: 14]\n• Safe Normal Vaginal Delivery & Caesarean Section / C-Section (نارمل ڈلیوری اور سیزیرین سیکشن)[cite: 14]\n• Early care of newborn, postpartum recovery & breastfeeding support[cite: 14]\n• Infertility assessment, diagnosis & targeted treatment (بانجھ پن کی تشخیص و علاج)[cite: 14]\n• Contraception, family planning & cervical cancer screening[cite: 14]\n• Major and minor gynaecological surgeries[cite: 14]\n• In-house Obs & Gynae Ultrasound facility (حمل اور امراضِ نسواں کا الٹراساؤنڈ)[cite: 14]",
+        timings: "• Monday to Saturday: 6:00 PM to 9:00 PM[cite: 14]\n• Sunday: On-call availability by prior appointment/contact[cite: 14]",
+        fee: "• Check-up Fee: Rs. 1,000 PKR[cite: 14]\n• Obs & Gynae Ultrasound Fee: Rs. 1,000 PKR[cite: 14]"
+      },
+      komal_mannan: {
+        name: "Dr. Komal Mannan",
+        shortTitle: "Sr. Registrar Gynae & Obs",
+        degrees: "MBBS (KEMU) | MS (Obstetrics & Gynaecology) | MRCOG (UK)[cite: 16]\nSenior Registrar – Gynaecology & Obstetrics (Over 10 Years of Specialized Clinical Experience)",
+        services: "• Advanced pregnancy care & regular antenatal check-ups (حمل کی نگرانی اور معائنہ)[cite: 16]\n• Specialized high-risk pregnancy management (پیچیدہ اور ہائی رسک حمل کی دیکھ بھال)[cite: 16]\n• Normal delivery & caesarean consultation (نارمل ڈلیوری اور آپریشن)[cite: 16]\n• Management of menstrual disorders & irregular periods (ماہواری کی بے قاعدگی)[cite: 16]\n• Infertility assessment & dedicated counselling (بانجھ پن کی جانچ اور رہنمائی)[cite: 16]\n• PCOS and hormonal imbalance treatment (پی سی او ایس اور ہارمونز کے مسائل)[cite: 16]\n• Uterine, ovarian problems & menopause care[cite: 16]\n• Gynaecological infections and routine health screenings[cite: 16]",
+        timings: "• Regular OPD: Friday to Sunday | 3:00 PM – 6:00 PM[cite: 16]\n• Emergency Check-up: Daily | 7:00 PM – 12:00 Midnight[cite: 16]",
+        fee: "• Standard Consultation & Procedure Packages available at clinic"
+      },
+      muhammad_shehzad: {
+        name: "Dr. Muhammad Shehzad",
+        shortTitle: "Cardiologist (Heart Specialist)",
+        degrees: "MBBS, FCPS Cardiology | Cardiology Speciality Registrar (ماہر امراضِ دل)[cite: 11]",
+        services: "• Hypertension & Blood Pressure Management (شوگر اور ہائی بلڈ پریشر)[cite: 11]\n• Diabetes & Cardiovascular Risk Assessment[cite: 11]\n• Chest Pain & Ischemic Heart Disease evaluation (سینے میں درد اور دل کی دھڑکن)[cite: 11]\n• Heart Failure management & shortness of breath (سانس کا پھولنا اور ہارٹ فیلئر)[cite: 11]\n• Palpitations, arrhythmias & valvular heart diseases[cite: 11]\n• Liver & respiratory/breathing issue evaluation (جگر اور سانس کا مسئلہ)[cite: 1]\n• Preventive cardiology & follow-up for known cardiac patients[cite: 11]\n• In-house Diagnostic Services: ECG & Echo Assessment[cite: 11]",
+        timings: "• Monday to Saturday: 6:00 PM – 8:00 PM (Mon–Fri 7:00 PM – 10:00 PM)[cite: 11]\n• Sunday: On-call availability by phone contact[cite: 11]",
+        fee: "• Consultation & Cardiac Evaluation Rates available upon inquiry"
+      },
+      farah_niaz: {
+        name: "Dr. Farah Niaz Awan",
+        shortTitle: "Skin, PRP & Aesthetics",
+        degrees: "MBBS, MS (UHS) | Assistant Professor, Jinnah Hospital, Lahore (اسسٹنٹ پروفیسر، جناح ہسپتال لاہور)[cite: 15]",
+        services: "• Hair PRP — Advanced treatment for hair fall & thinning (بالوں کے گرنے کا علاج)[cite: 15]\n• Face PRP — Rejuvenation & skin glow therapy (چہرے کی جلد کی بہتری کے لیے)[cite: 15]\n• HydraFacial — Deep cleansing, exfoliation & advanced skin care (جلد کی صفائی، تازگی اور نگہداشت)[cite: 15]\n• Laser Treatments — Targeted solutions for dermatological concerns[cite: 15]\n• Skin Diseases — Professional diagnosis & medical treatment of chronic skin conditions (جلدی امراض کا معائنہ اور علاج)[cite: 15]\n• Advanced clinical aesthetic procedures[cite: 15]",
+        timings: "• Friday, Saturday & Sunday: 6:00 PM – 9:00 PM[cite: 15]\n• Other Days: On-call consultation available by appointment[cite: 15]",
+        fee: "• Procedure-based packages (Contact clinic for PRP/HydraFacial details)"
+      },
+      asiya_musa: {
+        name: "Dr. Asiya Musa",
+        shortTitle: "Physiotherapist & Hijama",
+        degrees: "Doctor of Physical Therapy (DPT) — UMT | FIFA Diploma in Football Medicine[cite: 18]\nConsultant Physiotherapist & Hijama Specialist",
+        services: "• Comprehensive Physiotherapy for back, neck & joint pain (کمر، گردن اور جوڑوں کے درد کا علاج)[cite: 18]\n• Traditional Hijama / Cupping Therapy (حجامہ)[cite: 18]\n• Dry Needling, Acupuncture & Electro-Dry Needling[cite: 18]\n• Stroke Rehabilitation & Neuro Rehab (فالج کی بحالی)[cite: 18]\n• Post-Operative Rehabilitation (آپریشن کے بعد فزیوتھراپی)[cite: 18]\n• Sports injury recovery & Kinesiology Taping[cite: 18]\n• Personalized exercise programs & 1-on-1 sessions[cite: 18]\n• Home Physiotherapy Visits available by appointment[cite: 18]",
+        timings: "• Monday to Saturday: 6:00 PM – 9:00 PM[cite: 18]\n• Home Visits: Available by advance booking[cite: 18]",
+        fee: "• Initial Consultation: Rs. 500[cite: 18]\n• Physiotherapy Session: Rs. 1,000[cite: 18]\n• Session with Kinesiology Taping: Rs. 1,200[cite: 18]\n• Session with Dry Needling: Rs. 1,500[cite: 18]\n• Hijama Treatment: Rs. 2,500[cite: 18]\n• Home Visit: Rs. 2,500 – Rs. 4,000 (location-dependent)[cite: 18]"
+      }
+    };
+
+    const chatBox = document.getElementById("clioChatBox");
+    const optionsGrid = document.getElementById("clioOptionsGrid");
+    const optionsTitle = document.getElementById("optionsTitle");
+
+    function addMessage(text, sender = "bot") {
+      const row = document.createElement("div");
+      row.className = `msg-row ${sender}`;
+
+      const label = document.createElement("div");
+      label.className = "sender-label";
+      label.innerText = sender === "bot" ? "M.CLIO" : "You";
+
+      const bubble = document.createElement("div");
+      bubble.className = "msg-bubble";
+      bubble.innerText = text;
+
+      row.appendChild(label);
+      row.appendChild(bubble);
+      chatBox.appendChild(row);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Page Load: Welcome Message & 5-Second Countdown
+    window.addEventListener("DOMContentLoaded", () => {
+      addMessage(
+        "Asslam Alaikum!\nWelcome to Muhammad Clinic\nI will be guiding you today to book an appointment",
+        "bot"
+      );
+
+      const waitEl = document.createElement("div");
+      waitEl.id = "clioWaitIndicator";
+      waitEl.className = "waiting-indicator";
+      waitEl.innerHTML = `<span class="pulse-ring"></span> Loading interactive question options in <span id="secCounter">5</span>s...`;
+      chatBox.appendChild(waitEl);
+
+      let secondsLeft = 5;
+      const countdownInterval = setInterval(() => {
+        secondsLeft--;
+        const counterSpan = document.getElementById("secCounter");
+        if (counterSpan && secondsLeft > 0) {
+          counterSpan.innerText = secondsLeft;
+        }
+      }, 1000);
+
+      setTimeout(() => {
+        clearInterval(countdownInterval);
+        if (waitEl) waitEl.remove();
+        addMessage("Please select a question below to explore our specialist doctors, treatment services, clinic facilities, or book your appointment:", "bot");
+        showMainMenuOptions();
+      }, 5000);
+    });
+
+    function showMainMenuOptions() {
+      optionsTitle.innerText = "Select a Specialist Doctor or Clinic Service:";
+      optionsGrid.innerHTML = "";
+
+      const mainQuestions = [
+        { label: "👶 Dr. Ali Hamza (Child Specialist)", action: () => selectDoctor("ali_hamza") },
+        { label: "🤰 Dr. Hina Khalid (Gynaecologist)", action: () => selectDoctor("hina_khalid") },
+        { label: "👩‍⚕️ Dr. Komal Mannan (Sr. Gynae)", action: () => selectDoctor("komal_mannan") },
+        { label: "❤️ Dr. M. Shehzad (Cardiologist)", action: () => selectDoctor("muhammad_shehzad") },
+        { label: "✨ Dr. Farah Niaz (Skin & PRP)", action: () => selectDoctor("farah_niaz") },
+        { label: "💆‍♀️ Dr. Asiya Musa (Physio & Hijama)", action: () => selectDoctor("asiya_musa") },
+        { label: "🕒 All Doctors' OPD Timings", action: () => answerGeneral("all_timings") },
+        { label: "💰 Consultation & Treatment Fees", action: () => answerGeneral("all_fees") },
+        { label: "🩺 Diagnostic Facilities (Lab, ECG, Ultrasound)", action: () => answerGeneral("facilities") },
+        { label: "📍 Clinic Address & Emergency Contact", action: () => answerGeneral("location") },
+        { label: "📅 Book Your Appointment Now", action: () => answerGeneral("book_now"), highlight: true }
+      ];
+
+      mainQuestions.forEach(item => {
+        const btn = document.createElement("button");
+        btn.className = "opt-btn" + (item.highlight ? " highlight" : "");
+        btn.innerText = item.label;
+        btn.onclick = item.action;
+        optionsGrid.appendChild(btn);
+      });
+    }
+
+    function selectDoctor(docKey) {
+      const doc = DOCTORS_DATA[docKey];
+      addMessage(`Tell me about ${doc.name} (${doc.shortTitle})`, "user");
+
+      setTimeout(() => {
+        addMessage(
+          `You selected ${doc.name} (${doc.shortTitle}).\nWhat specific detail would you like to review?`,
+          "bot"
+        );
+        showDoctorSubOptions(docKey);
+      }, 200);
+    }
+
+    function showDoctorSubOptions(docKey) {
+      const doc = DOCTORS_DATA[docKey];
+      optionsTitle.innerText = `Questions for ${doc.name}:`;
+      optionsGrid.innerHTML = "";
+
+      const subQuestions = [
+        {
+          label: `📋 Complete Profile of ${doc.name}`,
+          action: () => {
+            addMessage(`Show complete profile of ${doc.name}`, "user");
+            setTimeout(() => {
+              addMessage(
+                `👨‍⚕️ ${doc.name}\n${doc.degrees}\n\n🩺 Key Services & Treatments:\n${doc.services}\n\n🕒 OPD Timings:\n${doc.timings}\n\n💰 Fee Structure:\n${doc.fee}`,
+                "bot"
+              );
+            }, 200);
+          }
+        },
+        {
+          label: `🎓 Qualifications & Expertise`,
+          action: () => {
+            addMessage(`What are ${doc.name}'s qualifications?`, "user");
+            setTimeout(() => {
+              addMessage(`🎓 Qualifications for ${doc.name}:\n${doc.degrees}`, "bot");
+            }, 200);
+          }
+        },
+        {
+          label: `🩺 Treatments & Services Offered`,
+          action: () => {
+            addMessage(`What services does ${doc.name} offer?`, "user");
+            setTimeout(() => {
+              addMessage(`🩺 Medical Services by ${doc.name}:\n${doc.services}`, "bot");
+            }, 200);
+          }
+        },
+        {
+          label: `🕒 Available Days & Timings`,
+          action: () => {
+            addMessage(`What are the clinic timings for ${doc.name}?`, "user");
+            setTimeout(() => {
+              addMessage(`🕒 OPD Schedule for ${doc.name}:\n${doc.timings}`, "bot");
+            }, 200);
+          }
+        },
+        {
+          label: `💰 Consultation & Procedure Fee`,
+          action: () => {
+            addMessage(`What is the fee for ${doc.name}?`, "user");
+            setTimeout(() => {
+              addMessage(`💰 Fee Details for ${doc.name}:\n${doc.fee}`, "bot");
+            }, 200);
+          }
+        },
+        {
+          label: `📅 Book Appointment with ${doc.name}`,
+          highlight: true,
+          action: () => {
+            addMessage(`I want to book an appointment with ${doc.name}`, "user");
+            setTimeout(() => {
+              addMessage(
+                `To book your visit with ${doc.name}:\n\n• Timings: ${doc.timings.replace(/\n/g, " | ")}\n• Call / WhatsApp: +92 322 5557869\n• Or use our online Booking Form on the main page!`,
+                "bot"
+              );
+              const waUrl = `https://wa.me/923225557869?text=${encodeURIComponent("Asslam Alaikum! I want to book an appointment with " + doc.name + " at Muhammad Clinic.")}`;
+              window.open(waUrl, "_blank");
+            }, 250);
+          }
+        },
+        {
+          label: `⬅️ Back to All Specialists Menu`,
+          isBack: true,
+          action: () => { showMainMenuOptions(); }
+        }
+      ];
+
+      subQuestions.forEach(q => {
+        const btn = document.createElement("button");
+        btn.className = "opt-btn" + (q.highlight ? " highlight" : "") + (q.isBack ? " back-btn" : "");
+        btn.innerText = q.label;
+        btn.onclick = q.action;
+        optionsGrid.appendChild(btn);
+      });
+    }
+
+    function answerGeneral(type) {
+      if (type === "all_timings") {
+        addMessage("What are the clinic timings for all doctors?", "user");
+        setTimeout(() => {
+          addMessage(
+            "🕒 Muhammad Clinic Specialist OPD Schedule:\n\n" +
+            "• Dr. Ali Hamza Arshad (Child Specialist): Mon–Sun 6:00 PM – 12:00 AM (Wed Off) | Emergency 2:00 PM – 6:00 PM[cite: 13]\n\n" +
+            "• Dr. Hina Khalid (Gynaecologist): Mon–Sat 6:00 PM – 9:00 PM (Sunday On-Call)[cite: 14]\n\n" +
+            "• Dr. Komal Mannan (Sr. Registrar Gynae): Regular OPD Fri–Sun 3:00 PM – 6:00 PM | Emergency Daily 7:00 PM – 12:00 Midnight[cite: 16]\n\n" +
+            "• Dr. Muhammad Shehzad (Cardiologist): Mon–Sat 6:00 PM – 8:00 PM[cite: 11]\n\n" +
+            "• Dr. Farah Niaz Awan (Skin & Aesthetics): Fri, Sat & Sun 6:00 PM – 9:00 PM[cite: 15]\n\n" +
+            "• Dr. Asiya Musa (Physiotherapist & Hijama): Mon–Sat 6:00 PM – 9:00 PM[cite: 18]",
+            "bot"
+          );
+        }, 200);
+      } else if (type === "all_fees") {
+        addMessage("What are the consultation and treatment fees?", "user");
+        setTimeout(() => {
+          addMessage(
+            "💰 Consultation & Treatment Fee Overview:\n\n" +
+            "• Dr. Ali Hamza Arshad (Child Specialist): Rs. 500/-[cite: 13]\n" +
+            "• Dr. Hina Khalid (Gynaecologist): Check-up Rs. 1,000 | Obs & Gynae Ultrasound Rs. 1,000[cite: 14]\n" +
+            "• Dr. Asiya Musa (Physiotherapy & Hijama):\n" +
+            "  - Initial Consultation: Rs. 500[cite: 18]\n" +
+            "  - Physiotherapy Session: Rs. 1,000[cite: 18]\n" +
+            "  - Kinesiology Taping Session: Rs. 1,200[cite: 18]\n" +
+            "  - Dry Needling Session: Rs. 1,500[cite: 18]\n" +
+            "  - Hijama Treatment: Rs. 2,500[cite: 18]\n" +
+            "  - Home Visit: Rs. 2,500 – 4,000[cite: 18]\n\n" +
+            "✨ Promising Care: Free Sehat Card facility and special financial discounts are available for deserving patients (غریب اور مستحق افراد کے لیے خصوصی رعایت)[cite: 1, 4].",
+            "bot"
+          );
+        }, 200);
+      } else if (type === "facilities") {
+        addMessage("What facilities are available at Muhammad Clinic?", "user");
+        setTimeout(() => {
+          addMessage(
+            "🩺 Muhammad Clinic Advanced Services & Facilities:\n\n" +
+            "✔ Dedicated Gynaecology, Antenatal Care & Delivery Suite[cite: 1, 4]\n" +
+            "✔ Complete Paediatric & Newborn Emergency Care[cite: 13]\n" +
+            "✔ Cardiovascular Evaluation, ECG & Echocardiography[cite: 11]\n" +
+            "✔ Dermatology & Advanced Aesthetics (Hair/Face PRP, HydraFacial & Laser)[cite: 15]\n" +
+            "✔ Professional Physiotherapy, Dry Needling & Hijama Cupping Therapy[cite: 18]\n" +
+            "✔ In-House Diagnostic Ultrasound & Clinical Laboratory (Featuring Free Home Blood Sample Collection)[cite: 1, 4]\n" +
+            "✔ Fully Stocked In-House Pharmacy[cite: 1, 4]\n" +
+            "✔ Compassionate Care under our motto: 'Your Health Is Our Priority' (تندرستی ہزار نعمت ہے)[cite: 1, 4]",
+            "bot"
+          );
+        }, 200);
+      } else if (type === "location") {
+        addMessage("Where is Muhammad Clinic located?", "user");
+        setTimeout(() => {
+          addMessage(
+            "📍 Clinic Address:\nHouse # 461-3-C1, Umar Chowk (Near Mehrab Juice Corner), Township, Lahore[cite: 1, 4]\n\n" +
+            "📞 Official Booking & Inquiry Numbers:\n• +92 322 5557869[cite: 1]\n• 0302-4422900[cite: 12]\n• 0335-1703379[cite: 1]",
+            "bot"
+          );
+        }, 200);
+      } else if (type === "book_now") {
+        addMessage("How can I book an appointment?", "user");
+        setTimeout(() => {
+          addMessage(
+            "📅 Booking Your Appointment is Easy:\n\n" +
+            "1️⃣ Choose any Specialist Doctor from our menu above and click 'Book Appointment'.\n" +
+            "2️⃣ Or visit our main website homepage (index.html#book-appointment) to select your preferred date and live available time slot directly from our Google Sheet schedule!",
+            "bot"
+          );
+        }, 200);
+      }
+    }
+  </script>
+</body>
+</html>
