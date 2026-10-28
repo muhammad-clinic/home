@@ -14,14 +14,19 @@
         .brand { display: flex; align-items: center; text-decoration: none; gap: 12px; }
         .brand img { height: 75px; width: auto; display: block; }
         .brand-text { font-size: 1.4rem; font-weight: 700; color: #004d40; letter-spacing: 0.5px; }
-        .nav-links { display: flex; align-items: center; }
+        .nav-links { display: flex; align-items: center; flex-wrap: wrap; }
         nav a { color: #004d40; text-decoration: none; margin-left: 20px; font-weight: 600; transition: color 0.3s; font-size: 0.95rem; }
         nav a:hover, nav a.active { color: #ff6f61; }
+        .nav-bot-btn { background: #004d40; color: #fff !important; padding: 8px 16px; border-radius: 25px; transition: background 0.3s; }
+        .nav-bot-btn:hover { background: #ff6f61; color: #fff !important; }
         .hero { background: linear-gradient(rgba(0,77,64,0.85), rgba(0,77,64,0.85)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1350&q=80') center/cover; color: white; padding: 100px 5%; text-align: center; }
         .hero h1 { font-size: 2.8rem; margin-bottom: 20px; }
         .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 30px; font-weight: 300; }
+        .hero-btns { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         .btn { display: inline-block; background: #ff6f61; color: white; padding: 12px 30px; border-radius: 5px; text-decoration: none; font-weight: 600; transition: background 0.3s; }
         .btn:hover { background: #e65b50; }
+        .btn-outline { background: #ffffff; color: #004d40; }
+        .btn-outline:hover { background: #e0f2f1; }
         .container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
         .section-title { text-align: center; margin-bottom: 40px; }
         .section-title h2 { font-size: 2.2rem; color: #004d40; }
@@ -33,6 +38,28 @@
         .footer-logo img { height: 75px; }
         .footer-logo span { font-size: 1.5rem; font-weight: 700; color: #fff; }
         footer p.ft-text { font-size: 0.9rem; color: #e0f2f1; max-width: 600px; margin: 5px auto; }
+
+        /* Floating Ask M.CLIO Button */
+        .floating-clio-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #004d40;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0, 77, 64, 0.35);
+            border: 2px solid #ffffff;
+            z-index: 9999;
+            transition: transform 0.2s, background 0.3s;
+        }
+        .floating-clio-btn:hover {
+            background: #ff6f61;
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 <body>
@@ -47,13 +74,17 @@
             <a href="services.html">Services & Fees</a>
             <a href="doctors.html">Specialist Doctors</a>
             <a href="privacy.html">Privacy Policy</a>
+            <a href="ask-m-clio.html" class="nav-bot-btn">💬 Ask M.CLIO</a>
         </nav>
     </header>
 
     <section class="hero">
         <h1>Welcome to Muhammad Clinic</h1>
         <p>Providing trusted healthcare, specialized medical care, physiotherapy, and advanced diagnostic services under one roof in Township, Lahore.</p>
-        <a href="doctors.html" class="btn">View Our Specialists</a>
+        <div class="hero-btns">
+            <a href="doctors.html" class="btn">View Our Specialists</a>
+            <a href="ask-m-clio.html" class="btn btn-outline">💬 Ask M.CLIO (Clinic Bot)</a>
+        </div>
     </section>
 
     <div class="container">
@@ -76,6 +107,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Floating Quick-Access Link to Ask M.CLIO -->
+    <a href="ask-m-clio.html" class="floating-clio-btn">💬 Ask M.CLIO</a>
 
     <footer>
         <div class="footer-logo">
