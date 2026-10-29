@@ -3,84 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ask M.CLIO | Muhammad Clinic Voice Assistant</title>
+    <title>Ask M.CLIO | Text Chat Bot - Muhammad Clinic</title>
     <link rel="shortcut icon" type="image/png" href="logo.png">
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: #f8f9fa; color: #333; line-height: 1.6; padding: 40px 20px; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; padding: 30px 20px; }
         
-        /* Top Navigation Bar */
         .top-nav { max-width: 650px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center; }
         .back-link { text-decoration: none; color: #004d40; font-weight: 600; font-size: 0.9rem; background: #ffffff; padding: 8px 18px; border-radius: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #cbd5e1; transition: all 0.3s; }
         .back-link:hover { background: #004d40; color: #ffffff; }
 
-        .clio-container { max-width: 650px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-top: 5px solid #004d40; text-align: center; }
-        h1 { color: #004d40; margin-bottom: 10px; font-size: 1.8rem; }
-        p.sub { color: #64748b; margin-bottom: 30px; font-size: 0.95rem; }
-        
-        .mic-box { background: #e0f2f1; border: 2px dashed #80cbc4; padding: 30px; border-radius: 10px; margin-bottom: 25px; }
-        .mic-box p { color: #004d40; font-weight: 500; margin-bottom: 15px; font-size: 1.05rem; }
-        
-        /* Vapi Widget Container Styling */
-        #vapi-support-container { display: flex; justify-content: center; margin-top: 20px; }
+        .chat-container { max-width: 650px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-top: 5px solid #004d40; }
+        h1 { color: #004d40; margin-bottom: 5px; text-align: center; font-size: 1.7rem; }
+        p.sub { text-align: center; color: #64748b; margin-bottom: 20px; font-size: 0.9rem; }
 
-        .fallback-contact { margin-top: 30px; font-size: 0.85rem; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 20px; }
-        .fallback-contact a { color: #004d40; text-decoration: none; font-weight: 600; }
+        .chat-box { border: 1px solid #cbd5e1; border-radius: 8px; height: 350px; overflow-y: auto; padding: 15px; background: #f8f9fa; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 10px 14px; border-radius: 8px; max-width: 80%; font-size: 0.9rem; }
+        .message.bot { background: #e0f2f1; color: #004d40; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .message.user { background: #004d40; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+
+        .chat-input-area { display: flex; gap: 10px; }
+        .chat-input-area input { flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 0.95rem; }
+        .chat-input-area input:focus { border-color: #004d40; }
+        .chat-input-area button { padding: 0 20px; background: #ff6f61; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.3s; }
+        .chat-input-area button:hover { background: #e65b50; }
+
+        .quick-options { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .quick-btn { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 15px; font-size: 0.8rem; cursor: pointer; color: #334155; transition: all 0.2s; }
+        .quick-btn:hover { background: #004d40; color: white; border-color: #004d40; }
+
+        .fallback-box { margin-top: 20px; text-align: center; font-size: 0.85rem; color: #64748b; }
+        .fallback-box a { color: #004d40; text-decoration: none; font-weight: 600; }
     </style>
 </head>
 <body>
 
-<div class="top-nav">
-    <a href="index.html" class="back-link">← Back to Home</a>
-</div>
-
-<div class="clio-container">
-    <h1>Meet M.CLIO</h1>
-    <p class="sub">Your 24/7 AI Voice Assistant for Muhammad Clinic, Township, Lahore</p>
-
-    <div class="mic-box">
-        <p>🎙️ Talk directly with M.CLIO to inquire about doctors, timings, consultation fees, or book your appointment by voice.</p>
-        
-        <!-- Vapi Button Widget Mount Point -->
-        <div id="vapi-support-container"></div>
+    <div class="top-nav">
+        <a href="index.html" class="back-link">← Back to Home</a>
+        <a href="call-m-clio.html" class="back-link" style="background: #ff6f61; color: #fff; border-color: #ff6f61;">📞 Call M.CLIO</a>
     </div>
 
-    <div class="fallback-contact">
-        <p>Prefer speaking to our clinic manager directly? Call or WhatsApp us at <a href="https://wa.me/923351703379">03351703379</a>.</p>
+    <div class="chat-container">
+        <h1>Ask M.CLIO (Text Chat)</h1>
+        <p class="sub">Chat with our 24/7 AI receptionist for clinic timings, doctors, and fees</p>
+
+        <div class="chat-box" id="chatBox">
+            <div class="message bot">Assalam-o-Alaikum! I am M.CLIO, your digital assistant for Muhammad Clinic (Township, Lahore). How can I help you today?</div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="Type your question here..." onkeypress="handleKey(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+        <div class="quick-options">
+            <button class="quick-btn" onclick="sendQuickQuery('What are the doctor timings?')">Doctor Timings</button>
+            <button class="quick-btn" onclick="sendQuickQuery('What are the consultation fees?')">Consultation Fees</button>
+            <button class="quick-btn" onclick="sendQuickQuery('How can I book an appointment?')">Book Appointment</button>
+            <button class="quick-btn" onclick="sendQuickQuery('What is the clinic address and phone?')">Clinic Address & Phone</button>
+        </div>
+
+        <div class="fallback-box">
+            <p>Prefer speaking live over voice? Try our <a href="call-m-clio.html">📞 Voice Assistant</a>.<br>
+            Or contact the clinic manager at <a href="https://wa.me/923351703379">03351703379</a>.</p>
+        </div>
     </div>
-</div>
 
-<!-- Vapi Web SDK Initialization Script -->
-<script>
-  // Replace YOUR_VAPI_PUBLIC_KEY and YOUR_ASSISTANT_ID with your actual Vapi credentials
-  var vapiInstance = null;
-  const VAPI_CONFIG = {
-    apiKey: "YOUR_VAPI_PUBLIC_KEY", 
-    assistant: "YOUR_ASSISTANT_ID"
-  };
-
-  // Load Vapi Widget Script Dynamically
-  (function () {
-    var script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
-    script.defer = true;
-    script.async = true;
-    script.onload = function () {
-      window.vapiSDK.run({
-        apiKey: VAPI_CONFIG.apiKey,
-        assistant: VAPI_CONFIG.assistant,
-        config: {
-          buttonPosition: "bottom-right",
-          buttonColor: "#004d40",
-          buttonText: "Talk with M.CLIO"
+    <script>
+        function handleKey(e) {
+            if (e.key === "Enter") sendMessage();
         }
-      });
-    };
-    document.head.appendChild(script);
-  })();
-</script>
 
+        function sendQuickQuery(text) {
+            document.getElementById("userInput").value = text;
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById("userInput");
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatBox = document.getElementById("chatBox");
+
+            // User Message
+            const userDiv = document.createElement("div");
+            userDiv.className = "message user";
+            userDiv.innerText = text;
+            chatBox.appendChild(userDiv);
+            input.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Bot Response Logic
+            setTimeout(() => {
+                const botDiv = document.createElement("div");
+                botDiv.className = "message bot";
+                botDiv.innerText = getBotResponse(text);
+                chatBox.appendChild(botDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 500);
+        }
+
+        function getBotResponse(input) {
+            input = input.toLowerCase();
+            if (input.includes("timing") || input.includes("time") || input.includes("hour") || input.includes("open")) {
+                return "Muhammad Clinic operates evening OPDs from Monday to Saturday. Most specialist doctors sit between 5:00 PM and 9:00 PM.";
+            } else if (input.includes("fee") || input.includes("charge") || input.includes("cost")) {
+                return "Consultation fees vary by specialist doctor, typically ranging around Rs. 1,000 to Rs. 1,500. You can check exact fees on our Services & Fees page or via the booking page.";
+            } else if (input.includes("book") || input.includes("appointment") || input.includes("schedule")) {
+                return "You can easily book an appointment online by visiting our 'Book Appointment' page from the top menu!";
+            } else if (input.includes("address") || input.includes("location") || input.includes("where") || input.includes("phone") || input.includes("contact")) {
+                return "We are located at House # 461-3-C1, near Umar Chowk, Township, Lahore. You can contact the clinic manager at 03351703379.";
+            } else if (input.includes("doctor") || input.includes("specialist")) {
+                return "We have specialist doctors across General Medicine, Pediatrics, Gynaecology, Cardiology, and Physiotherapy. Check out the 'Specialist Doctors' page for details.";
+            } else {
+                return "Thank you for your question! For specific medical inquiries or instant bookings, please call our clinic manager directly at 03351703379 or use our booking page.";
+            }
+        }
+    </script>
 </body>
 </html>
