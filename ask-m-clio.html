@@ -3,134 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Call M.CLIO | Voice Assistant - Muhammad Clinic</title>
+    <title>Ask M.CLIO | Muhammad Clinic Voice Assistant</title>
     <link rel="shortcut icon" type="image/png" href="logo.png">
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: #f8f9fa; color: #333; line-height: 1.6; padding: 30px 20px; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; padding: 40px 20px; }
         
-        .top-nav { max-width: 750px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center; }
+        /* Top Navigation Bar */
+        .top-nav { max-width: 650px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center; }
         .back-link { text-decoration: none; color: #004d40; font-weight: 600; font-size: 0.9rem; background: #ffffff; padding: 8px 18px; border-radius: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #cbd5e1; transition: all 0.3s; }
         .back-link:hover { background: #004d40; color: #ffffff; }
 
-        .container { max-width: 750px; margin: 0 auto; background: white; padding: 35px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-top: 5px solid #004d40; text-align: center; }
-        h1 { color: #004d40; margin-bottom: 8px; font-size: 1.8rem; }
-        p.sub { color: #64748b; margin-bottom: 25px; font-size: 0.95rem; }
+        .clio-container { max-width: 650px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-top: 5px solid #004d40; text-align: center; }
+        h1 { color: #004d40; margin-bottom: 10px; font-size: 1.8rem; }
+        p.sub { color: #64748b; margin-bottom: 30px; font-size: 0.95rem; }
+        
+        .mic-box { background: #e0f2f1; border: 2px dashed #80cbc4; padding: 30px; border-radius: 10px; margin-bottom: 25px; }
+        .mic-box p { color: #004d40; font-weight: 500; margin-bottom: 15px; font-size: 1.05rem; }
+        
+        /* Vapi Widget Container Styling */
+        #vapi-support-container { display: flex; justify-content: center; margin-top: 20px; }
 
-        .voice-card { background: #e0f2f1; border: 2px dashed #80cbc4; padding: 25px; border-radius: 10px; margin-bottom: 20px; }
-        .voice-card h3 { color: #004d40; margin-bottom: 8px; font-size: 1.2rem; }
-        .voice-card p { color: #334155; margin-bottom: 15px; font-size: 0.9rem; }
-
-        #vapi-call-container { display: flex; justify-content: center; margin-top: 10px; }
-
-        .transcript-box { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; height: 260px; overflow-y: auto; text-align: left; margin-top: 25px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
-        .transcript-header { font-weight: 600; color: #004d40; margin-bottom: 10px; font-size: 0.95rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
-        .chat-message { margin-bottom: 10px; font-size: 0.9rem; padding: 8px 12px; border-radius: 6px; max-width: 85%; }
-        .chat-message.user { background: #f1f5f9; color: #1e293b; margin-left: auto; text-align: right; border-bottom-right-radius: 2px; }
-        .chat-message.assistant { background: #e0f2f1; color: #004d40; margin-right: auto; border-bottom-left-radius: 2px; }
-        .chat-message span { font-weight: 600; font-size: 0.75rem; display: block; margin-bottom: 2px; opacity: 0.7; }
-
-        .fallback-box { margin-top: 25px; font-size: 0.85rem; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 15px; }
-        .fallback-box a { color: #004d40; text-decoration: none; font-weight: 600; }
+        .fallback-contact { margin-top: 30px; font-size: 0.85rem; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        .fallback-contact a { color: #004d40; text-decoration: none; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <div class="top-nav">
-        <a href="index.html" class="back-link">← Back to Home</a>
-        <a href="ask-m-clio.html" class="back-link" style="background: #004d40; color: #fff;">💬 Text Chat Bot</a>
+<div class="top-nav">
+    <a href="index.html" class="back-link">← Back to Home</a>
+</div>
+
+<div class="clio-container">
+    <h1>Meet M.CLIO</h1>
+    <p class="sub">Your 24/7 AI Voice Assistant for Muhammad Clinic, Township, Lahore</p>
+
+    <div class="mic-box">
+        <p>🎙️ Talk directly with M.CLIO to inquire about doctors, timings, consultation fees, or book your appointment by voice.</p>
+        
+        <!-- Vapi Button Widget Mount Point -->
+        <div id="vapi-support-container"></div>
     </div>
 
-    <div class="container">
-        <h1>Call M.CLIO (Voice Assistant)</h1>
-        <p class="sub">Speak live in English with our AI receptionist. Your live conversation transcript will appear below.</p>
-
-        <div class="voice-card">
-            <h3>🎙️ Voice Call Box</h3>
-            <p>Click the widget button below to start talking with M.CLIO.</p>
-            <div id="vapi-call-container"></div>
-        </div>
-
-        <div class="transcript-box" id="transcriptBox">
-            <div class="transcript-header">
-              <span>💬 Live Call Transcript Log</span>
-              <span id="callStatus" style="font-size: 0.8rem; color: #64748b; font-weight: normal;">Status: Disconnected</span>
-            </div>
-            <div id="chatLog" style="color: #94a3b8; font-style: italic; text-align: center; margin-top: 40px;">
-                Start a voice call above to see the live chat transcript here...
-            </div>
-        </div>
-
-        <div class="fallback-box">
-            <p>Need direct assistance? Contact clinic manager at <a href="https://wa.me/923351703379">03351703379</a>.</p>
-        </div>
+    <div class="fallback-contact">
+        <p>Prefer speaking to our clinic manager directly? Call or WhatsApp us at <a href="https://wa.me/923351703379">03351703379</a>.</p>
     </div>
+</div>
 
-    <script>
-      const VAPI_CONFIG = {
-        apiKey: "1102a857-9bb8-4e5f-8af6-3a6781fe0562",
-        assistant: "99837d2f-3d5a-4688-beab-29070d723d34"
-      };
+<!-- Vapi Web SDK Initialization Script -->
+<script>
+  // Replace YOUR_VAPI_PUBLIC_KEY and YOUR_ASSISTANT_ID with your actual Vapi credentials
+  var vapiInstance = null;
+  const VAPI_CONFIG = {
+    apiKey: "YOUR_VAPI_PUBLIC_KEY", 
+    assistant: "YOUR_ASSISTANT_ID"
+  };
 
-      (function () {
-        var script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
-        script.defer = true;
-        script.async = true;
-        script.onload = function () {
-          window.vapiSDK.run({
-            apiKey: VAPI_CONFIG.apiKey,
-            assistant: VAPI_CONFIG.assistant,
-            config: {
-              buttonPosition: "bottom-right",
-              buttonColor: "#004d40",
-              buttonText: "Call M.CLIO Live"
-            }
-          });
-
-          // Connect transcript event listeners once SDK initializes
-          setTimeout(() => {
-              if (window.vapiSDK && typeof window.vapiSDK.on === "function") {
-                  const chatLog = document.getElementById("chatLog");
-                  const statusLabel = document.getElementById("callStatus");
-
-                  window.vapiSDK.on("call-start", () => {
-                      statusLabel.innerText = "Status: Connected 🟢";
-                      statusLabel.style.color = "#16a34a";
-                      chatLog.innerHTML = ""; 
-                  });
-
-                  window.vapiSDK.on("call-end", () => {
-                      statusLabel.innerText = "Status: Disconnected ⚫";
-                      statusLabel.style.color = "#64748b";
-                  });
-
-                  window.vapiSDK.on("message", (message) => {
-                      if (message.type === "transcript" && message.transcriptType === "final") {
-                          appendMessage(message.role, message.transcript);
-                      }
-                  });
-              }
-          }, 1000);
-        };
-        document.head.appendChild(script);
-      })();
-
-      function appendMessage(role, text) {
-          const chatLog = document.getElementById("chatLog");
-          if (chatLog.innerHTML.includes("Start a voice call")) {
-              chatLog.innerHTML = "";
-          }
-          const div = document.createElement("div");
-          div.className = `chat-message ${role}`;
-          let senderLabel = role === "user" ? "You" : "M.CLIO";
-          div.innerHTML = `<span>${senderLabel}</span>${text}`;
-          chatLog.appendChild(div);
-          chatLog.scrollTop = chatLog.scrollHeight;
-      }
-    </script>
+  // Load Vapi Widget Script Dynamically
+  (function () {
+    var script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+    script.defer = true;
+    script.async = true;
+    script.onload = function () {
+      window.vapiSDK.run({
+        apiKey: VAPI_CONFIG.apiKey,
+        assistant: VAPI_CONFIG.assistant,
+        config: {
+          buttonPosition: "bottom-right",
+          buttonColor: "#004d40",
+          buttonText: "Talk with M.CLIO"
+        }
+      });
+    };
+    document.head.appendChild(script);
+  })();
+</script>
 
 </body>
 </html>
